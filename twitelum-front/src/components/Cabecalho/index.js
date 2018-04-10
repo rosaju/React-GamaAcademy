@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './cabecalho.css'
-
-
+// import './navMenu.css'
 
 class Cabecalho extends Component {
     render() {
@@ -18,4 +17,4 @@ class Cabecalho extends Component {
     }
 }
 
-export default Cabecalho;
+export default Cabecalho
