@@ -7,6 +7,26 @@ import TrendsArea from './components/TrendsArea'
 import Tweet from './components/Tweet'
 
 class App extends Component {
+    constructor() {
+        super()
+        this.state = {
+            novoTweet: '',
+            tweets: []
+    }
+
+    this.adicionaTweet = this.adicionaTweet.bind(this)
+    }
+
+    adicionaTweet(infosDoEvento) {
+        infosDoEvento.preventDefault()
+        const novoTweet = this.state.novoTweet
+        const tweets = this.state.tweets
+
+        this.setState({
+            tweets: [novoTweet, ...tweets]
+        })
+    }
+
   render() {
     return (
       <Fragment>
@@ -16,12 +36,28 @@ class App extends Component {
         <div className="container">
             <Dashboard>
                 <Widget>
-                    <form className="novoTweet">
-                        <div className="novoTweet__editorArea">
-                            <span className="novoTweet__status">0/140</span>
-                            <textarea className="novoTweet__editor" placeholder="O que está acontecendo?"></textarea>
+                    <form className="novoTweet" onSubmit={ this.adicionaTweet }>
+                        <div className="novoTweet__editorArea">                            
+                            <span 
+                                className={`
+                                    novoTweet__status
+                                    ${ this.state.novoTweet.length > 140
+                                        ? 'novoTweet__status--invalido' : '' }
+                                `}>
+                                { this.state.novoTweet.length }/140                            
+                            </span>
+                            <textarea 
+                                className="novoTweet__editor" 
+                                value={ this.state.novoTweet }
+                                onInput={ (event) => this.setState({ novoTweet: event.target.value}) }
+                                placeholder="O que está acontecendo?">
+                            </textarea>
                         </div>
-                        <button type="submit" className="novoTweet__envia">Tweetar</button>
+                        <button className="novoTweet__envia"
+                                disabled={ this.state.novoTweet.length > 140 ? true : false }
+                                type="submit" >
+                            Tweetar
+                        </button>
                     </form>
                 </Widget>
                 <Widget>
@@ -31,7 +67,13 @@ class App extends Component {
             <Dashboard posicao="centro">
                 <Widget>
                     <div className="tweetsArea">
-                        <Tweet />
+                        { this.state.tweets.map(
+                            (tweetInfo, index) =>
+                                <Tweet 
+                                        key={tweetInfo + index}
+                                        texto={tweetInfo}/>
+                            )
+                        }                        
                     </div>
                 </Widget>
             </Dashboard>
