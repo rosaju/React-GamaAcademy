@@ -7,7 +7,7 @@ import './loginPage.css'
 class LoginPage extends Component {
     fazLogin = (event) => {
         event.preventDefault()
-        const login = this.inputSenha.value
+        const login = this.inputLogin.value
         const senha = this.inputSenha.value
 
         const infosDoUsuario = {
@@ -19,7 +19,6 @@ class LoginPage extends Component {
             method: 'POST',
             body: JSON.stringify(infosDoUsuario)
         })
-
         .then((respostaDoServer) => {
             if(!respostaDoServer.ok) {
                 throw respostaDoServer
@@ -47,7 +46,7 @@ class LoginPage extends Component {
                 <div className="container">
                     <Widget>
                         <h1 className="loginPage__title">Twitelum</h1>
-                        <form className="loginPage__form" action="/">
+                        <form className="loginPage__form" action="/" onSubmit={this.fazLogin}>
                             <div className="loginPage__inputWrap">
                                 <label className="loginPage__label" htmlFor="login">Login</label> 
                                 <input 

@@ -12,9 +12,14 @@ class Home extends Component {
         this.state = {
             novoTweet: '',
             tweets: []
-    }
+        
+        }
 
-    this.adicionaTweet = this.adicionaTweet.bind(this)
+        this.adicionaTweet = this.adicionaTweet.bind(this)
+
+            if(!localStorage.getItem('TOKEN')) {
+                this.props.history.push('/login')
+            }
     }
 
     adicionaTweet(infosDoEvento) {
@@ -67,11 +72,12 @@ class Home extends Component {
             <Dashboard posicao="centro">
                 <Widget>
                     <div className="tweetsArea">
+                        { this.state.length  === 0 
+                            ? 'Mensagem avisando' : ''
+                        }
                         { this.state.tweets.map(
                             (tweetInfo, index) =>
-                                <Tweet 
-                                        key={tweetInfo + index}
-                                        texto={tweetInfo}/>
+                                <Tweet key={tweetInfo + index}texto={tweetInfo}/>
                             )
                         }                        
                     </div>
