@@ -5,6 +5,42 @@ import './loginPage.css'
 
 
 class LoginPage extends Component {
+    fazLogin = (event) => {
+        event.preventDefault()
+        const login = this.inputSenha.value
+        const senha = this.inputSenha.value
+
+        const infosDoUsuario = {
+            login: login, //ES5
+            senha  //ES6
+        }
+
+        fetch('http://localhost:3001/login', {
+            method: 'POST',
+            body: JSON.stringify(infosDoUsuario)
+        })
+
+        .then((respostaDoServer) => {
+            if(!respostaDoServer.ok) {
+                throw respostaDoServer
+            }
+            return respostaDoServer.json()
+        })
+
+        .then((respostaPronta) => {
+            console.log(respostaPronta)
+            localStorage.setItem('TOKEN', respostaPronta.token)
+            this.props.history.push('/')
+        })
+
+        .catch((responseError) => {
+            responseError.json().then((respostaDoServer) => {
+                console.log(respostaDoServer)
+            })
+        })
+
+    }
+
     render() {
         return (
             <div className="loginPage">
@@ -14,11 +50,21 @@ class LoginPage extends Component {
                         <form className="loginPage__form" action="/">
                             <div className="loginPage__inputWrap">
                                 <label className="loginPage__label" htmlFor="login">Login</label> 
-                                <input className="loginPage__input" type="text" id="login" name="login"/>
+                                <input 
+                                    className="loginPage__input" 
+                                    type="text" 
+                                    id="login"
+                                    ref={ (inputLoginDoDOM) => this.inputLogin = inputLoginDoDOM }
+                                    name="login"/>
                             </div>
                             <div className="loginPage__inputWrap">
                                 <label className="loginPage__label" htmlFor="senha">Senha</label> 
-                                <input className="loginPage__input" type="password" id="senha" name="senha"/>
+                                <input 
+                                    className="loginPage__input" 
+                                    type="password" 
+                                    id="senha" 
+                                    ref={ (inputSenhaDoDOM) => this.inputSenha = inputSenhaDoDOM }                        
+                                    name="senha"/>
                             </div>
                             {/* <div className="loginPage__errorBox">
                                 Mensagem de erro!

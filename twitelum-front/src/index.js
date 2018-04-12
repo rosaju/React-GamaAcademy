@@ -12,21 +12,15 @@ import './assets/css/notificacao.css'
 import './assets/css/novoTweet.css'
 // import './index.css';
 
-
-import Home from './pages/Home';
-import LoginPage from './pages/LoginPage'
-
 import registerServiceWorker from './registerServiceWorker';
 
 //importação do roteamento
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
+import Routes from './routes'
 
 ReactDOM.render(
     <BrowserRouter>
-        <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/login" component={LoginPage} />
-        </Switch>
+        <Routes />
     </BrowserRouter>
     , document.getElementById('root'));
 registerServiceWorker();
