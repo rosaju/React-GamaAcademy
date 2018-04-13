@@ -11,6 +11,21 @@ class Tweet extends Component {
 
     }
 
+    handleLike = (idDoTweet) => {
+        const { likeado, totalLikes } = this.state //Destructuring
+
+        this.setState({
+            likeado: !likeado,
+            totalLikes: likeado ? totalLikes - 1 : totalLikes + 1
+        })
+
+        fetch(`http://localhost:3001/tweets/${idDoTweet}/like?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, { method: 'POST' })
+            .then( respostaDoServer => respostaDoServer.json() )
+            .then((respostaPronta) => {
+                console.log(respostaPronta)
+            })
+    }
+
     render() {
         return (
             <article className="tweet">
@@ -21,7 +36,7 @@ class Tweet extends Component {
                 </div>
                 <p className="tweet__conteudo">{ this.props.texto }</p>
                 <footer className="tweet__footer">
-                    <button className="btn btn--clean">
+                    <button className="btnTweet btn btn--clean" onClick={(event) => {this.handleLike(this.props.tweetInfo._id)}}>
                         <svg className={`icon icon--small iconHeart ${ this.state.likeado ? 'iconHeart--active' : '' }`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
                             <defs>
                                 <clipPath id="a">
