@@ -11,15 +11,24 @@ class Home extends Component {
         super()
         this.state = {
             novoTweet: '',
-            tweets: []
+            tweets: [],
+            login: ''
         
         }
 
         this.adicionaTweet = this.adicionaTweet.bind(this)
 
-            if(!localStorage.getItem('TOKEN')) {
-                this.props.history.push('/login')
-            }
+    }
+
+    componentDidMount() {
+        fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`) 
+            .then((respostaDoServer) => respostaDoServer.json())
+            .then((tweetProntoDoServer) => {
+                this.setState({
+                    tweets: tweetProntoDoServer,
+                    login: localStorage.getItem('LOGIN')
+                })
+            })
     }
 
     adicionaTweet(infosDoEvento) {
@@ -46,7 +55,7 @@ class Home extends Component {
     return (
       <Fragment>
         <Cabecalho>
-            <NavMenu usuario="@omariosouto" />
+            <NavMenu usuario={ `@ ${this.state.login}` } />
         </Cabecalho>
         <div className="container">
             <Dashboard>

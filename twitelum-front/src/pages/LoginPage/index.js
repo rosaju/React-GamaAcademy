@@ -29,6 +29,7 @@ class LoginPage extends Component {
         .then((respostaPronta) => {
             console.log(respostaPronta)
             localStorage.setItem('TOKEN', respostaPronta.token)
+            localStorage.setItem('LOGIN', this.inputLogin.value)
             this.props.history.push('/')
         })
 
