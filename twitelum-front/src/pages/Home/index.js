@@ -25,11 +25,21 @@ class Home extends Component {
     adicionaTweet(infosDoEvento) {
         infosDoEvento.preventDefault()
         const novoTweet = this.state.novoTweet
-        const tweets = this.state.tweets
-
-        this.setState({
-            tweets: [novoTweet, ...tweets]
-        })
+        
+        if(novoTweet) {
+            fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
+                method:'POST',
+                body: JSON.stringify({ conteudo: novoTweet})
+            })
+            .then((respostaDoServer) => {
+                return respostaDoServer.json()
+            })
+            .then((tweetProntoDoServer) => {
+                this.setState({
+                    tweets: [tweetProntoDoServer, ...this.state.tweets]
+                })
+            })
+        }
     }
 
   render() {
@@ -72,14 +82,11 @@ class Home extends Component {
             <Dashboard posicao="centro">
                 <Widget>
                     <div className="tweetsArea">
-                        { this.state.length  === 0 
-                            ? 'Mensagem avisando' : ''
-                        }
                         { this.state.tweets.map(
                             (tweetInfo, index) =>
-                                <Tweet key={tweetInfo + index}texto={tweetInfo}/>
-                            )
-                        }                        
+                                <Tweet key={tweetInfo._id} texto={tweetInfo.conteudo} tweetInfo={tweetInfo}/>
+                            )  
+                        }                      
                     </div>
                 </Widget>
             </Dashboard>
