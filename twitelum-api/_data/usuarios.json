@@ -1,5 +1,13 @@
 [
     {
+        "login": "rosaju",
+        "nome": "Juliana",
+        "sobrenome": "Rosa",
+        "foto": "https://avatars1.githubusercontent.com/u/32584367?s=460&v=4",
+        "email": "rosajuuu@gmail.com",
+        "senha": "123456"
+    },
+    {
         "login": "omariosouto",
         "nome": "Mario",
         "sobrenome": "Souto",
