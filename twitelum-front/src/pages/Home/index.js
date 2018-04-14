@@ -51,6 +51,23 @@ class Home extends Component {
         }
     }
 
+    
+    removeTweet = (idDoTweet) => {
+        fetch(`http://localhost:3001/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
+            method: 'DELETE'
+        })
+        .then((data) => data.json())
+        .then((response) => {
+            console.log(response)
+            const tweetsAtualizados = this
+            .state.tweets.filter((tweetAtual) => tweetAtual._id !== idDoTweet)
+            this.setState({
+                tweets: tweetsAtualizados
+            })
+        })       
+        
+    }
+
   render() {
     return (
       <Fragment>
@@ -91,9 +108,12 @@ class Home extends Component {
             <Dashboard posicao="centro">
                 <Widget>
                     <div className="tweetsArea">
-                        { this.state.tweets.map(
-                            (tweetInfo, index) =>
-                                <Tweet key={tweetInfo._id} texto={tweetInfo.conteudo} tweetInfo={tweetInfo}/>
+                        { this.state.tweets.length && this.state.tweets.map((tweetInfo, index) =>
+                                <Tweet 
+                                    key={tweetInfo._id} 
+                                    removeHandler={() => this.removeTweet(tweetInfo._id)}
+                                    texto={tweetInfo.conteudo} 
+                                    tweetInfo={tweetInfo}/>
                             )  
                         }                      
                     </div>

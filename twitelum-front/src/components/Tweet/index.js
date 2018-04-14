@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './tweet.css'
 
 class Tweet extends Component {
@@ -49,10 +50,34 @@ class Tweet extends Component {
                         </svg>
                         { this.state.totalLikes }
                     </button>
+                    {
+                        this.props.tweetInfo.removivel &&
+                        <button 
+                            onClick={this.props.removeHandler}
+                            className="btn btn--blue btn--remove">
+                            x
+                        </button>
+                    }                    
                 </footer>
             </article>
         )
     }
+}
+
+Tweet.protoTypes = {
+    removeHandler: PropTypes.func.isRequired,
+    texto: PropTypes.string.isRequired,
+    tweetInfo: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        likeado: PropTypes.bool.isRequired,
+        totalLikes: PropTypes.number.isRequired,
+        removivel: PropTypes.bool,
+        usuario: PropTypes.shape({
+            foto: PropTypes.string.isRequired,
+            login: PropTypes.string.isRequired,
+            nome: PropTypes.string.isRequired
+        }).isRequired
+    }).isRequired
 }
 
 export default Tweet
