@@ -12,8 +12,10 @@ class Home extends Component {
         this.state = {
             novoTweet: '',
             tweets: [],
-            login: ''
-        
+            login: '',
+            tweetAtivo: {
+                usuario: {}
+            }
         }
 
         this.adicionaTweet = this.adicionaTweet.bind(this)
@@ -68,6 +70,17 @@ class Home extends Component {
         
     }
 
+    abreModalDoTweet = (idDoTweetQueVaiNoModal) => {
+        console.log('idDoTweetQueVaiNoModal', idDoTweetQueVaiNoModal)
+        const tweetAtivo = this.state
+                                .tweets
+                                .find((tweetAtual) => tweetAtual._id === idDoTweetQueVaiNoModal)
+        console.log(tweetAtivo)
+        this.setState({
+            tweetAtivo: tweetAtivo
+        })
+    }
+
   render() {
     return (
       <Fragment>
@@ -113,13 +126,21 @@ class Home extends Component {
                                     key={tweetInfo._id} 
                                     removeHandler={() => this.removeTweet(tweetInfo._id)}
                                     texto={tweetInfo.conteudo} 
-                                    tweetInfo={tweetInfo}/>
+                                    tweetInfo={tweetInfo}
+                                    handleModal={this.abreModalDoTweet}/>
                             )  
                         }                      
                     </div>
                 </Widget>
             </Dashboard>
         </div>
+        {
+            this.state.tweetAtivo._id &&
+            <Tweet
+                removeHandler={() => this.state.tweetAtivo} 
+                texto={this.state.tweetAtivo.conteudo}
+                tweetInfo={this.state.tweetAtivo}/>
+        }
       </Fragment>
     );
   }
