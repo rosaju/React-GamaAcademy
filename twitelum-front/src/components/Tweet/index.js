@@ -29,14 +29,14 @@ class Tweet extends Component {
 
     render() {
         return (
-            <article className="tweet" onClick={(event) => {this.props.handleModal(this.props.tweetInfo._id)}}>
-                <div className="tweet__cabecalho">
+            <article className="tweet" onClick={this.props.handleModal}>
+                <div className="tweet__cabecalho ignoraModal">
                     <img className="tweet__fotoUsuario" src={ this.props.tweetInfo.usuario.foto } alt="" />
                     <span className="tweet__nomeUsuario">{ this.props.tweetInfo.usuario.nome }</span>
                     <a href=""><span className="tweet__userName">{ this.props.tweetInfo.usuario.login }</span></a>
                 </div>
                 <p className="tweet__conteudo">{ this.props.texto }</p>
-                <footer className="tweet__footer">
+                <footer className="tweet__footer ignoraModal" >
                     <button className="btnTweet btn btn--clean" onClick={(event) => {this.handleLike(this.props.tweetInfo._id)}}>
                         <svg className={`icon icon--small iconHeart ${ this.state.likeado ? 'iconHeart--active' : '' }`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
                             <defs>
