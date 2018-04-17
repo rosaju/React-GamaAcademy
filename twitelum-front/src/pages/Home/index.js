@@ -22,14 +22,23 @@ class Home extends Component {
 
     }
 
+    componentWillMount() {
+        window.store.subscribe(() => {
+            this.setState({
+                tweets: window.store.getState()
+            })
+        })
+    }
+
     componentDidMount() {
         fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`) 
             .then((respostaDoServer) => respostaDoServer.json())
             .then((tweetProntoDoServer) => {
-                this.setState({
-                    tweets: tweetProntoDoServer,
-                    login: localStorage.getItem('LOGIN')
-                })
+                window.store.dispatch({ type: 'CARREGA_TWEETS', tweets: tweetProntoDoServer })
+                //this.setState({
+                    //tweets: tweetProntoDoServer,
+                    //login: localStorage.getItem('LOGIN')
+                //})
             })
     }
 
