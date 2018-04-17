@@ -6,9 +6,15 @@ import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
 import Tweet from '../../components/Tweet'
 import Modal from '../../components/Modal'
+import PropTypes from 'prop-types'
 
 
 class Home extends Component {
+
+    static contextTypes = {
+        store: PropTypes.object.isRequired
+    }
+
     constructor() {
         super()
         this.state = {
@@ -170,5 +176,9 @@ class Home extends Component {
     );
     }
 }
+
+//Home.contextTypes = {
+    //store: PropTypes.object.isRequired
+//}
 
 export default Home;
