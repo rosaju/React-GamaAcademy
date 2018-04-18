@@ -4,7 +4,8 @@ import NavMenu from '../../components/NavMenu'
 import Dashboard from '../../components/Dashboard'
 import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
-import Tweet from '../../components/Tweet'
+/* import Tweet from '../../components/Tweet' */
+import Tweet from '../../containers/TweetPadrao'
 import Modal from '../../components/Modal'
 
 import PropTypes from 'prop-types'
@@ -54,10 +55,13 @@ class Home extends Component {
     }
 
     
-    removeTweet = (idDoTweet) => {
+/*     removeTweet = (idDoTweet) => {
         this.context.store.dispatch(TweetsAPI.remove(idDoTweet))
-        
-    }
+
+        this.setState({
+            tweetAtivo: {} 
+        })
+    } */
 
     abreModalDoTweet = (idDoTweetQueVaiNoModal, event) => {
         const ignoraModal = event.target.closest('.ignoraModal')
@@ -124,8 +128,8 @@ class Home extends Component {
                     <div className="tweetsArea">
                         { this.state.tweets.length && this.state.tweets.map((tweetInfo, index) =>
                                 <Tweet 
-                                    key={tweetInfo._id} 
-                                    removeHandler={() => this.removeTweet(tweetInfo._id)}
+                                    key={tweetInfo._id}
+                                    /* removeHandler={() => this.removeTweet(tweetInfo._id)} */
                                     texto={tweetInfo.conteudo} 
                                     tweetInfo={tweetInfo}
                                     handleModal={(event) => this.abreModalDoTweet(tweetInfo._id, event)}/>

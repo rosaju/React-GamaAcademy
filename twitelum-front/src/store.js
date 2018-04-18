@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
 
-function tweetsReducer(estadoInicial = [], action = {}) {
+function tweetsReducer(estadoInicial = { lista: [], tweetAtivo: {} }, action = {}) {
     console.log(action)
     if(action.type === 'CARREGA_TWEETS') {
         const novoEstado = action.tweets
@@ -16,10 +16,8 @@ function tweetsReducer(estadoInicial = [], action = {}) {
     }
 
     if(action.type === 'REMOVE_TWEET') {
-        console.log(estadoInicial)
         const tweetsAtualizados = estadoInicial.filter((tweetAtual) => tweetAtual._id !== action.idDoTweet)
-
-        estadoInicial = tweetsAtualizados
+        return tweetsAtualizados
     }
 
     return estadoInicial
