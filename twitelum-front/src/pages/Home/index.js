@@ -6,7 +6,9 @@ import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
 import Tweet from '../../components/Tweet'
 import Modal from '../../components/Modal'
+
 import PropTypes from 'prop-types'
+import * as TweetsAPI from '../../apis/TweetsAPI'
 
 
 class Home extends Component {
@@ -37,51 +39,23 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`) 
-            .then((respostaDoServer) => respostaDoServer.json())
-            .then((tweetProntoDoServer) => {
-                this.context.store.dispatch({ type: 'CARREGA_TWEETS', tweets: tweetProntoDoServer })
-                //this.setState({
-                    //tweets: tweetProntoDoServer,
-                    //login: localStorage.getItem('LOGIN')
-                //})
-            })
+        this.context.store.dispatch(TweetsAPI.carrega())
     }
 
     adicionaTweet(infosDoEvento) {
         infosDoEvento.preventDefault()
         const novoTweet = this.state.novoTweet
         
-        if(novoTweet) {
-            fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
-                method:'POST',
-                body: JSON.stringify({ conteudo: novoTweet})
-            })
-            .then((respostaDoServer) => {
-                return respostaDoServer.json()
-            })
-            .then((tweetProntoDoServer) => {
-                this.setState({
-                    tweets: [tweetProntoDoServer, ...this.state.tweets]
-                })
-            })
-        }
+        this.context.store.dispatch(TweetsAPI.adiciona(novoTweet))
+
+        this.setState({
+            novoTweet: ''
+        })
     }
 
     
     removeTweet = (idDoTweet) => {
-        fetch(`http://localhost:3001/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
-            method: 'DELETE'
-        })
-        .then((data) => data.json())
-        .then((response) => {
-            console.log(response)
-            const tweetsAtualizados = this
-            .state.tweets.filter((tweetAtual) => tweetAtual._id !== idDoTweet)
-            this.setState({
-                tweets: tweetsAtualizados
-            })
-        })       
+        this.context.store.dispatch(TweetsAPI.remove(idDoTweet))
         
     }
 
