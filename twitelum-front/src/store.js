@@ -1,9 +1,8 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 
 
 function tweetsReducer(estadoInicial = { lista: [], tweetAtivo: {} }, action = {}) {
-    console.log(action)
     if(action.type === 'CARREGA_TWEETS') {
         const novoEstado = {
             ...estadoInicial,
@@ -13,7 +12,6 @@ function tweetsReducer(estadoInicial = { lista: [], tweetAtivo: {} }, action = {
     }
 
     if(action.type === 'ADICIONA_TWEET') {
-        console.warn('Acao que tá acontecendo agora', action.type, estadoInicial)
         const novoEstado = {
             ...estadoInicial,
             lista: [action.tweet, ...estadoInicial.lista]
@@ -72,8 +70,25 @@ function tweetsReducer(estadoInicial = { lista: [], tweetAtivo: {} }, action = {
 
 }
 
+function notificacoesReducer(estadoInicial = '', action = {}) {
+    if(action.type === 'ADD_NOTIFICACAO') {
+        const novoEstado = action.msg
+        return novoEstado
+    }
+
+    if(action.type === 'REMOVE_NOTIFICACAO') {
+        const novoEstado = ''
+        return novoEstado
+    }
+
+    return estadoInicial
+}
+
 const store = createStore(
-    tweetsReducer,
+    combineReducers({
+        tweets: tweetsReducer,
+        notificacao: notificacoesReducer
+    }),
     applyMiddleware(thunk))
 
 export default store;
