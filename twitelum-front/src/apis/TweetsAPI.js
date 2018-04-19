@@ -34,12 +34,19 @@ export const remove = (idDoTweet) => {
         })
         .then((data) => data.json())
         .then((response) => {
-            dispatch({ type: 'REMOVE_TWEET', idDoTweet: idDoTweet})
-/*             const tweetsAtualizados = this
+            dispatch({ type: 'REMOVE_TWEET', idDoTweet: idDoTweet })
+            dispatch({ type: 'REMOVE_TWEET_ATIVO' })
+        /*  const tweetsAtualizados = this
             .state.tweets.filter((tweetAtual) => tweetAtual._id !== idDoTweet)
             this.setState({
                 tweets: tweetsAtualizados
             }) */
         }) 
+    }
+}
+
+export const like = (idDoTweet) => {
+    return (dispatch) => {
+        dispatch({ type: 'LIKE', idDoTweet })
     }
 }
