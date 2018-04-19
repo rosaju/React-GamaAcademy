@@ -49,8 +49,8 @@ export const like = (idDoTweet) => {
     return (dispatch) => {
         dispatch({ type: 'LIKE', idDoTweet })
         dispatch({ type: 'ADD_NOTIFICACAO', msg: 'Acho que foi, hein?!'})
-        setTimeout(() => {
+        /* setTimeout(() => {
             dispatch({ type: 'REMOVE_NOTIFICACAO'})
-        }, 5000)
+        }, 5000) */
     }
 }
